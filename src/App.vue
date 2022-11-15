@@ -12,15 +12,20 @@ const account = new Account(useAppwrite());
 
 onMounted(() => {
 
-  const promise = account.get();
+  try {
+    const promise = account.get();
 
-  promise.then((loggedInUser: Models.Account<Models.Preferences>) => {
-    user.value = loggedInUser;
-  }, error => {
-    console.error(error);
-  })
+    promise.then((loggedInUser: Models.Account<Models.Preferences>) => {
+      user.value = loggedInUser;
+    });
+  } catch {
 
+  }
 });
+
+const logout = () => {
+  account.deleteSession("current");
+}
 
 
 const login = () => {
@@ -48,4 +53,9 @@ const login = () => {
     <input type="password" name="password" id="password" ref="password">
     <input type="button" value="login" id="login" @click="login">
   </div>
+
+
+  <input type="button" value="logout" id="logout" @click="logout">
+
+  <RouterView />
 </template>
