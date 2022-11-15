@@ -49,6 +49,8 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        flavor: |
+          latest=true
         tags: |
           type=ref,event=branch
           type=ref,event=pr
@@ -61,5 +63,5 @@ jobs:
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: ${{ steps.meta.outputs.tags }},latest
         labels: ${{ steps.meta.outputs.labels }}
