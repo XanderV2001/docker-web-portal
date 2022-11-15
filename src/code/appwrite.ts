@@ -1,4 +1,5 @@
 import { Account, Client } from 'appwrite';
+import { useRouter } from 'vue-router';
 
 let appwriteClient : Client | null  = null;
 
@@ -15,10 +16,4 @@ export async function isLoggedIn(): Promise<boolean> {
     } catch {
         return false;
     }
-}
-
-export function logout(): void {
-    const account = new Account(useAppwrite());
-
-    account.deleteSession("current");
 }
