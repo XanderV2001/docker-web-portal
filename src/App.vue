@@ -1,31 +1,52 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { Account } from 'appwrite';
+import { Models } from 'appwrite/types/models';
+import { onMounted, ref, Ref } from 'vue';
+import { useAppwrite } from './code/appwrite';
+
+const user: Ref<Models.Account<Models.Preferences> | null> = ref(null);
+const email: Ref<HTMLInputElement | null> = ref(null);
+const password: Ref<HTMLInputElement | null> = ref(null);
+
+const account = new Account(useAppwrite());
+
+
+onMounted(() => {
+
+  const promise = account.get();
+
+  promise.then((loggedInUser: Models.Account<Models.Preferences>) => {
+    user.value = loggedInUser;
+  }, error => {
+    console.error(error);
+  })
+
+});
+
+
+const login = () => {
+
+  const promise = account.createEmailSession(email.value?.value!, password.value?.value!)
+
+  promise.then(async (response: Models.Session) => {
+    user.value = await account.get();
+  }, (error: any) => {
+    console.error(error);
+  })
+}
+
 </script>
 
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <h1>Currently logged in user: {{ user?.name }}</h1>
   </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" ref="email">
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" ref="password">
+    <input type="button" value="login" id="login" @click="login">
+  </div>
+</template>
