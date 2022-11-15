@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Account } from 'appwrite';
-import { Models } from 'appwrite/types/models';
+import { Account, Models } from 'appwrite';
 import { onMounted, ref, Ref } from 'vue';
 import { useAppwrite } from './code/appwrite';
 
@@ -38,11 +37,11 @@ const login = () => {
 </script>
 
 <template>
-  <div>
+  <div class="text-2xl">
     <h1>Currently logged in user: {{ user?.name }}</h1>
   </div>
 
-  <div>
+  <div class="text-lg">
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" ref="email">
     <label for="password">Password:</label>
