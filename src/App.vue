@@ -17,25 +17,15 @@ const nav: routeItem[] = useNavItems();
 
 const router: Router = useRouter();
 
-
-// onBeforeMount(() => {
-//   const promise = account.get();
-
-//   promise.then((loggedInUser: Models.Account<Models.Preferences>) => {
-//     user.value = loggedInUser;
-//   });
-// });
-
-const logout = () => {
+const logout = (): void => {
   account.deleteSession("current");
   router.go(0);
 }
 
-const login = () => {
+const login = (): void => {
+  const promise: Promise<Models.Session> = account.createEmailSession(email.value?.value!, password.value?.value!)
 
-  const promise = account.createEmailSession(email.value?.value!, password.value?.value!)
-
-  promise.then(async (response: Models.Session) => {
+  promise.then((_response: Models.Session) => {
     router.go(0);
   }, (error: any) => {
     console.error(error);
@@ -47,7 +37,7 @@ const login = () => {
 <template>
   <div class="min-h-screen max-w-screen flex flex-col bg-primary-darker text-secondary">
 
-    <header class="h-16 flex items-center bg-primary gap-4 mx-2">
+    <header class="h-16 flex items-center bg-primary gap-4 px-2">
 
       <p class="text-4xl font-semibold pb-1">&lt;Xander Dev/&gt;</p>
 
@@ -55,13 +45,17 @@ const login = () => {
 
       <div class="flex grow justify-between">
         <nav class="text-lg gap-4 flex">
-          <RouterLink :to="navItem.to" class="hover:underline" v-for="navItem in nav">{{ navItem.name }}</RouterLink>
+          <RouterLink :to="navItem.to"
+            class="hover:underline hover:text-accent decoration-accent  flex gap-2 items-center" v-for="navItem in nav">
+            {{ navItem.name }}
+          </RouterLink>
         </nav>
 
         <input type="button" class="hover:outline outline-1 outline-offset-1 outline-accent rounded px-2" value="Logout"
           id="logout" @click="logout" v-if="loggedIn">
       </div>
     </header>
+
     <main class="text-lg flex flex-col grow justify-center items-center" v-if="!loggedIn">
       <div class="grid grid-cols-3 grid-rows-4 gap-4 p-4 bg-primary rounded">
         <div class="col-span-3 text-2xl border-b pb-2 border-gray-600">Login</div>

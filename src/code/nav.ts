@@ -6,6 +6,6 @@ export type routeItem = {
 export function useNavItems(): routeItem[] {
     return [{
         to: "/",
-        name: "Home"
+        name: "Home",
     }];
 }
