@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Account, Models } from 'appwrite';
+import { Account, Avatars, Models } from 'appwrite';
 import { ref, Ref } from 'vue';
 import { Router, useRouter } from 'vue-router';
 import { useAppwrite, isLoggedIn } from './code/appwrite';
@@ -9,6 +9,7 @@ const email: Ref<HTMLInputElement | null> = ref(null);
 const password: Ref<HTMLInputElement | null> = ref(null);
 
 const account: Account = new Account(useAppwrite());
+const avatar: URL = new Avatars(useAppwrite()).getInitials(undefined, 30, 30,);
 const loggedIn: Ref<boolean> = ref(false);
 
 isLoggedIn().then(loggedInStatus => loggedIn.value = loggedInStatus)
@@ -18,8 +19,9 @@ const nav: routeItem[] = useNavItems();
 const router: Router = useRouter();
 
 const logout = (): void => {
-  account.deleteSession("current");
-  router.go(0);
+  account.deleteSession("current").then(() => {
+    router.go(0);
+  });
 }
 
 const login = (): void => {
@@ -31,7 +33,6 @@ const login = (): void => {
     console.error(error);
   })
 }
-
 </script>
 
 <template>
@@ -51,8 +52,13 @@ const login = (): void => {
           </RouterLink>
         </nav>
 
-        <input type="button" class="hover:outline outline-1 outline-offset-1 outline-accent rounded px-2" value="Logout"
-          id="logout" @click="logout" v-if="loggedIn">
+        <div
+          class="flex justify-center items-center hover:outline outline-1 outline-offset-1 outline-accent rounded p-2 cursor-pointer"
+          @click="logout" v-if="loggedIn">
+          <img :src="avatar.toString()" alt="Avatar" class="rounded" />
+
+          <input type="button" class="pl-2 cursor-pointer" value="Logout" id="logout">
+        </div>
       </div>
     </header>
 
