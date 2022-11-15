@@ -45,15 +45,15 @@ const login = () => {
 </script>
 
 <template>
-  <div class="min-h-screen w-screen flex flex-col bg-primary-darker text-secondary">
+  <div class="min-h-screen max-w-screen flex flex-col bg-primary-darker text-secondary">
 
-    <section class="h-16 flex items-center bg-primary gap-4">
+    <haeder class="h-16 flex items-center bg-primary gap-4 mx-2">
 
       <p class="text-4xl font-semibold pb-1">&lt;Xander Dev/&gt;</p>
 
       <div class="text-4xl border-accent border h-8"></div>
 
-      <div class="flex grow justify-between mr-4">
+      <div class="flex grow justify-between">
         <nav class="text-lg gap-4 flex">
           <RouterLink :to="navItem.to" class="hover:underline" v-for="navItem in nav">{{ navItem.name }}</RouterLink>
         </nav>
@@ -61,9 +61,8 @@ const login = () => {
         <input type="button" class="hover:outline outline-1 outline-offset-1 outline-accent rounded px-2" value="Logout"
           id="logout" @click="logout" v-if="loggedIn">
       </div>
-    </section>
-
-    <div class="text-lg flex flex-col grow justify-center items-center" v-if="!loggedIn">
+    </haeder>
+    <main class="text-lg flex flex-col grow justify-center items-center" v-if="!loggedIn">
       <div class="grid grid-cols-3 grid-rows-4 gap-4 p-4 bg-primary rounded">
         <div class="col-span-3 text-2xl border-b pb-2 border-gray-600">Login</div>
         <label for="email">Email:</label>
@@ -74,9 +73,16 @@ const login = () => {
           ref="password">
         <input type="button" class="bg-accent text-black rounded col-start-3" value="login" id="login" @click="login">
       </div>
-    </div>
+    </main>
 
+    <main class="flex flex-col grow mx-2" v-else>
+      <RouterView />
+    </main>
 
-    <RouterView />
+    <footer class="bg-primary h-10 flex justify-center items-center text-gray-400">
+      <p>&copy; {{ new Date().getFullYear() }} Copyright <a href="https://xandervos.dev"
+          class="hover:text-secondary hover:underline">Xander Vos</a></p>
+    </footer>
+
   </div>
 </template>
