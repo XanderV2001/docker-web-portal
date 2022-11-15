@@ -47,7 +47,7 @@ const login = () => {
 <template>
   <div class="min-h-screen max-w-screen flex flex-col bg-primary-darker text-secondary">
 
-    <haeder class="h-16 flex items-center bg-primary gap-4 mx-2">
+    <header class="h-16 flex items-center bg-primary gap-4 mx-2">
 
       <p class="text-4xl font-semibold pb-1">&lt;Xander Dev/&gt;</p>
 
@@ -61,7 +61,7 @@ const login = () => {
         <input type="button" class="hover:outline outline-1 outline-offset-1 outline-accent rounded px-2" value="Logout"
           id="logout" @click="logout" v-if="loggedIn">
       </div>
-    </haeder>
+    </header>
     <main class="text-lg flex flex-col grow justify-center items-center" v-if="!loggedIn">
       <div class="grid grid-cols-3 grid-rows-4 gap-4 p-4 bg-primary rounded">
         <div class="col-span-3 text-2xl border-b pb-2 border-gray-600">Login</div>
@@ -81,7 +81,7 @@ const login = () => {
 
     <footer class="bg-primary h-10 flex justify-center items-center text-gray-400">
       <p>&copy; {{ new Date().getFullYear() }} Copyright <a href="https://xandervos.dev"
-          class="hover:text-secondary hover:underline">Xander Vos</a></p>
+          class="hover:text-accent hover:underline decoration-accent">Xander Vos</a></p>
     </footer>
 
   </div>
