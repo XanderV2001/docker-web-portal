@@ -7,9 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    ICarbonAccessibility: typeof import('~icons/carbon/accessibility')['default']
-    IFaHouse: typeof import('~icons/fa/house')['default']
-    IMdiMonitorDashboard: typeof import('~icons/mdi/monitor-dashboard')['default']
+    Line: typeof import('./src/components/line.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
